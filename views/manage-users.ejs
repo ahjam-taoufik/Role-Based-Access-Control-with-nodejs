@@ -1,0 +1,22 @@
+<%- include('./layouts/header') %> 
+<h1 class="table">Manager Users</h1>
+
+<table class="table">
+    <thead>
+      <th>id</th>
+      <th>email</th>
+      <th>role</th>
+    </thead>
+    <tbody>
+        <!-- <pre> <%- JSON.stringify(users,null,2) %> </pre> -->
+      <% users.forEach(user => { %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><a href="/admin/user/<%= user.id %>"><%= user.email %></a></td>
+     
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+<%- include('./layouts/footer') %> 
