@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const connectFlash = require("connect-flash");
+const passport=require('passport')
 require("dotenv").config();
 const app = express();
 app.use(morgan("dev")); //this line for show method sender in Terminal
@@ -41,6 +42,12 @@ app.use(
   })
 );
 
+app.use(passport.initialize())
+app.use(passport.session())
+require('./utils/passport.auth')
+
+
+
 app.use(connectFlash())
 app.use((req,res,next)=>{
   res.locals.messages=req.flash()
@@ -62,3 +69,4 @@ app.use((error, req, res, next) => {
   res.render("error_40x", { error });
   //res.send(error)
 });
+ 
