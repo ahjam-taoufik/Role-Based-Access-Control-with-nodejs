@@ -11,10 +11,15 @@ router.get('/login',(req,res, next)=>{
     res.render('login')
 })
 
-
 router.get('/register',(req,res, next)=>{
+//req.flash('error','some error')
+//req.flash('key','some value')
+//const messages= req.flash()
+//console.log(message);
+//res.render('register',{messages})
     res.render('register')
 })
+
 
 router.post('/register',async (req,res, next)=>{
     // res.send(req.body)
@@ -25,8 +30,6 @@ router.post('/register',async (req,res, next)=>{
             res.redirect('/auth/register')
             return
         }
-
-
         const user=new User(req.body)
        await user.save();
         res.send(user)
@@ -34,6 +37,8 @@ router.post('/register',async (req,res, next)=>{
         next(error)
     }
 })
+
+
 
 router.get('/logout',(req,res, next)=>{
     res.send('logout ')
