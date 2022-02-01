@@ -7,6 +7,8 @@ const app=express()
 app.use(morgan('dev'))//this line for show method sender in Terminal
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
 
 const PORT=process.env.PORT || 3000
 
