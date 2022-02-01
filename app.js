@@ -14,6 +14,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const MongoStore=require('connect-mongo')//this package for save  your session in mongoDB
+const connectEnsureLogin=require('connect-ensure-login')//redirect user back after login to the requested route.
+
+
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -65,7 +69,8 @@ app.use((req,res,next)=>{
 
 app.use("/", require("./routes/index.route"));
 app.use("/auth", require("./routes/auth.route"));
-app.use("/user",ensureAuthenticated, require("./routes/user.route"));
+// app.use("/user",ensureAuthenticated, require("./routes/user.route"));
+app.use("/user",connectEnsureLogin.ensureLoggedIn({redirectTo:'/auth/login'}), require("./routes/user.route"));
 
 app.use((req, res, next) => {
   next(createHttpError.NotFound());
@@ -80,10 +85,10 @@ app.use((error, req, res, next) => {
  
 
 
-function ensureAuthenticated(req,res,next){
-  if(req.isAuthenticated()){
-    next()
-  }else{
-    res.redirect('/auth/login');
-  }
-}
+// function ensureAuthenticated(req,res,next){
+//   if(req.isAuthenticated()){
+//     next()
+//   }else{
+//     res.redirect('/auth/login');
+//   }
+// }
