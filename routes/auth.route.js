@@ -4,6 +4,8 @@ const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 
 const connectEnsure = require("connect-ensure-login"); //redirect user back after login to the requested route.
+const {registerValidator}=require('../utils/validators')
+
 
 router.post(
   "/login",
@@ -40,24 +42,7 @@ router.get(
 router.post(
   "/register",
   connectEnsure.ensureLoggedOut({redirectTo:'/'}),
-  [
-    body("email")
-      .trim()
-      .isEmail()
-      .withMessage("Email must be Valid")
-      .normalizeEmail()
-      .toLowerCase(),
-    body("password")
-      .trim()
-      .isLength(6)
-      .withMessage("Password lenght short, min 6 char required"),
-    body("password2").custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error("Password do not match");
-      }
-      return true;
-    }),
-  ],
+  registerValidator,
   async (req, res, next) => {
     // res.send(req.body)
     try {
